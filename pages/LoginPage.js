@@ -7,8 +7,8 @@ export class LoginPage {
     }
 
     async validLogin(username, password) {
-        await this.userName.type(username);
-        await this.password.type(password);
-        await this.logInButton.click();
+        await this.userName.type(username)
+        await this.password.type(password)
+        await this.logInButton.click()
     }
 }
