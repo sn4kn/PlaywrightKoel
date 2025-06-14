@@ -3,12 +3,12 @@ dotenv.config()
 import { test, expect } from '@playwright/test'
 import { LoginPage } from '../pages/LoginPage'
 
-test("login page title", async ({ page }) => {
+test("should display correct login page title", async ({ page }) => {
     await page.goto("/")
     await expect(page).toHaveTitle("Koel")
 })
 
-test("login with valid credentials", async ({ page }) => {
+test("should log in with valid credentials and navigate to home", async ({ page }) => {
     const loginPage = new LoginPage(page)
     await page.goto("/")
     await loginPage.validLogin("andrii.banak@testpro.io", process.env.ADMIN_PASSWORD)
