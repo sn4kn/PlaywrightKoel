@@ -5,3 +5,8 @@ test("login page title",async ({page})=>{
 await page.goto("/")
 await expect(page).toHaveTitle("Koel")
 })
+
+test("login with valid credentials",async ({page})=>{
+await page.goto("/")
+await expect(page).toHaveTitle("Koel")
+})
