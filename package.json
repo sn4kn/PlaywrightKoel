@@ -14,6 +14,7 @@
     "@types/node": "^22.15.29"
   },
   "dependencies": {
+    "dotenv": "^16.0.3",
     "uuid": "^9.0.0"
   }
 }
