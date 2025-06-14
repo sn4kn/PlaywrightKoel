@@ -5,7 +5,7 @@ import { HomePage } from '../pages/HomePage'
 import { LoginPage } from '../pages/LoginPage'
 
 test('should display selected playlist', async ({ page }) => {
-    const name = 'Rap'; // set playlist name
+    const name = 'Rap'
     const homePage = new HomePage(page)
     const loginPage = new LoginPage(page)
     await page.goto("/")
@@ -13,3 +13,4 @@ test('should display selected playlist', async ({ page }) => {
     await homePage.clickOnPlaylist(`${name}`)
     await expect(homePage.currentPlaylistSelected(`${name}`)).toBeVisible()
 })
+

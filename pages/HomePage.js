@@ -14,7 +14,16 @@ export class HomePage {
         const playlistName = this.page.locator(`a:has-text('${name}')`)
         await playlistName.click()
     }
+    
     currentPlaylistSelected(name) {
         return this.page.locator(`h1:has-text('${name}')`)
+    }
+
+    getCurrentPlayingSongTitle() {
+        return this.currentPlayingSongTitle
+    }
+
+    async clickOnAllSongs() {
+        await this.allSongs.click()
     }
 }
