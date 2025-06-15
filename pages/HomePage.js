@@ -7,7 +7,7 @@ export class HomePage {
         this.allSongs = page.locator("li .songs")
         this.currentPlayingSongTitle = page.locator("#progressPane>h3")
         this.deletePlaylistButton = page.locator("[title = 'Delete this playlist']")
-        this.editPlaylistButton = page.locator("li:has-text('Edit')")
+        this.editPlaylistButton = page.locator("nav[class='menu playlist-item-menu'] li:has-text('Edit')")
     }
 
     async clickOnPlaylist(name) {

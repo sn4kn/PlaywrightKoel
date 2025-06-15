@@ -23,9 +23,32 @@ test("should create and delete a playlist successfully", async ({ page }) => {
     const loginPage = new LoginPage(page)
     await page.goto("/")
     await loginPage.validLogin(process.env.ADMIN_USERNAME, process.env.ADMIN_PASSWORD)
-    await homePage.createPlaylist(playlistName)
+    if (!(await homePage.playlistExist(playlistName).isVisible())) {
+        await homePage.createPlaylist(playlistName)
+    }
     await expect(homePage.currentPlaylistSelected(`${playlistName}`)).toBeVisible()
     await homePage.clickOnDeleteBtn()
     await expect(homePage.playlistExist(playlistName)).not.toBeVisible()
 })
 
+test.only("should create, rename and delete a playlist successfully", async ({ page }) => {
+    const playlistName = `Playlist-${uuidv4()}`
+    const newPlaylistName = `Playlist-${uuidv4()}`
+    const homePage = new HomePage(page)
+    const loginPage = new LoginPage(page)
+    await page.goto("/")
+    await loginPage.validLogin(process.env.ADMIN_USERNAME, process.env.ADMIN_PASSWORD)
+    if (!(await homePage.playlistExist(playlistName).isVisible())) {
+        await homePage.createPlaylist(playlistName)
+    }
+    await expect(homePage.currentPlaylistSelected(`${playlistName}`)).toBeVisible()
+    await homePage.playlistExist(playlistName).click({ button: 'right' })
+    await homePage.editPlaylistButton.click()
+    await homePage.playlistExist(playlistName).press('Control+A');
+    await homePage.playlistExist(playlistName).press('Backspace');
+    await homePage.playlistExist(playlistName).type(newPlaylistName)
+    await homePage.playlistExist(playlistName).press('Enter')
+    await expect(homePage.playlistExist(newPlaylistName)).toBeVisible()
+    await homePage.clickOnDeleteBtn()
+    await expect(homePage.playlistExist(newPlaylistName)).not.toBeVisible()
+})
