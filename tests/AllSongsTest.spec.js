@@ -9,7 +9,7 @@ test('should play selected song', async ({ page }) => {
     const allSongsPage = new AllSongsPage(page)
     const name = "Lament"
     await page.goto("/")
-    await loginPage.validLogin("andrii.banak@testpro.io", process.env.ADMIN_PASSWORD)
+    await loginPage.validLogin(process.env.ADMIN_USERNAME, process.env.ADMIN_PASSWORD)
     await homePage.clickOnAllSongs()
     await allSongsPage.playSong(name)
     await expect(homePage.getCurrentPlayingSongTitle()).toContainText(name)
