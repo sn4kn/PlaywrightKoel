@@ -19,6 +19,10 @@ export class HomePage {
         return this.page.locator(`h1:has-text('${name}')`)
     }
 
+    playlistExist(name) {
+        return this.page.locator(`li a:has-text('${name}')`)
+    }
+
     getCurrentPlayingSongTitle() {
         return this.currentPlayingSongTitle
     }
@@ -32,5 +36,9 @@ export class HomePage {
         await this.newPlaylistButton.click()
         await this.createPlaylistField.type(name)
         await this.createPlaylistField.press('Enter')
+    }
+
+    async clickOnDeleteBtn() {
+        await this.deletePlaylistButton.click()
     }
 }
