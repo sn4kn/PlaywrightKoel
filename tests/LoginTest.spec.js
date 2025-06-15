@@ -12,3 +12,17 @@ test("should log in with valid credentials and navigate to home", async ({ page 
     await loginPage.validLogin(process.env.ADMIN_USERNAME, process.env.ADMIN_PASSWORD)
     await expect(page).toHaveURL("https://qa.koel.app/#!/home")
 })
+
+test("should not log in with invalid credentials", async ({ page }) => {
+    const loginPage = new LoginPage(page)
+    await page.goto("/")
+    await loginPage.validLogin("xxx@gmail.com", "password123")
+    await expect(page).toHaveURL("https://qa.koel.app/")
+})
+
+test("should navigate to registration page", async ({ page }) => {
+    const loginPage = new LoginPage(page)
+    await page.goto("/")
+    await loginPage.clickOnRegistration()
+    await expect(page).toHaveURL("https://qa.koel.app/registration")
+})
