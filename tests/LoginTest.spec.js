@@ -1,3 +1,4 @@
+import { v4 as uuidv4 } from 'uuid'
 import { test, expect } from '@playwright/test'
 import { LoginPage } from '../pages/LoginPage'
 
@@ -16,7 +17,7 @@ test("should log in with valid credentials and navigate to home", async ({ page 
 test("should not log in with invalid credentials", async ({ page }) => {
     const loginPage = new LoginPage(page)
     await page.goto("/")
-    await loginPage.validLogin("xxx@gmail.com", "password123")
+    await loginPage.validLogin(`${uuidv4()}@gmail.com`, `${uuidv4()}`)
     await expect(page).toHaveURL("https://qa.koel.app/")
 })
 

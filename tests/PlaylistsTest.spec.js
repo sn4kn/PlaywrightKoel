@@ -1,9 +1,10 @@
+import { v4 as uuidv4 } from 'uuid'
 import { test, expect } from '@playwright/test'
 import { HomePage } from '../pages/HomePage'
 import { LoginPage } from '../pages/LoginPage'
 
 test("should create and display new playlist", async ({ page }) => {
-    const playlistName = "Rock"
+    const playlistName = `Playlist-${uuidv4()}`
     const homePage = new HomePage(page)
     const loginPage = new LoginPage(page)
     await page.goto("/")
@@ -17,7 +18,7 @@ test("should create and display new playlist", async ({ page }) => {
 })
 
 test("should create and delete a playlist successfully", async ({ page }) => {
-    const playlistName = "Classic"
+    const playlistName = `Playlist-${uuidv4()}`
     const homePage = new HomePage(page)
     const loginPage = new LoginPage(page)
     await page.goto("/")
