@@ -2,6 +2,7 @@ import { v4 as uuidv4 } from 'uuid'
 import { test, expect } from '@playwright/test'
 import { HomePage } from '../pages/HomePage'
 import { LoginPage } from '../pages/LoginPage'
+import { AllSongsPage } from "../pages/AllSongsPage"
 
 test("should create and display new playlist", async ({ page }) => {
     const playlistName = `Playlist-${uuidv4()}`
@@ -31,7 +32,7 @@ test("should create and delete a playlist successfully", async ({ page }) => {
     await expect(homePage.playlistExist(playlistName)).not.toBeVisible()
 })
 
-test.only("should create, rename and delete a playlist successfully", async ({ page }) => {
+test("should create, rename and delete a playlist successfully", async ({ page }) => {
     const playlistName = `Playlist-${uuidv4()}`
     const newPlaylistName = `Playlist-${uuidv4()}`
     const homePage = new HomePage(page)
@@ -51,4 +52,25 @@ test.only("should create, rename and delete a playlist successfully", async ({ p
     await expect(homePage.playlistExist(newPlaylistName)).toBeVisible()
     await homePage.clickOnDeleteBtn()
     await expect(homePage.playlistExist(newPlaylistName)).not.toBeVisible()
+})
+
+test("should create playlist, add song, and delete playlist", async ({ page }) => {
+    const playlistName = `Playlist-${uuidv4()}`
+    const allSongsPage = new AllSongsPage(page)
+    const homePage = new HomePage(page)
+    const loginPage = new LoginPage(page)
+    await page.goto("/")
+    await loginPage.validLogin(process.env.ADMIN_USERNAME, process.env.ADMIN_PASSWORD)
+    if (!(await homePage.playlistExist(playlistName).isVisible())) {
+        await homePage.createPlaylist(playlistName)
+    }
+    await expect(homePage.currentPlaylistSelected(`${playlistName}`)).toBeVisible()
+    await homePage.clickOnAllSongs()
+    await allSongsPage.clickOnSong("Lament")
+    await allSongsPage.addSongToPlaylist(playlistName)
+    await homePage.playlistExist(playlistName).click()
+    await expect(homePage.getSongInPlaylist("Lament")).toBeVisible()
+    await homePage.clickOnDeleteBtn()
+    await homePage.deleteConfirm.click()
+    await expect(homePage.playlistExist(playlistName)).not.toBeVisible()
 })

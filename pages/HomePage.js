@@ -8,6 +8,7 @@ export class HomePage {
         this.currentPlayingSongTitle = page.locator("#progressPane>h3")
         this.deletePlaylistButton = page.locator("[title = 'Delete this playlist']")
         this.editPlaylistButton = page.locator("nav[class='menu playlist-item-menu'] li:has-text('Edit')")
+        this.deleteConfirm = page.locator('.ok')
     }
 
     async clickOnPlaylist(name) {
@@ -41,4 +42,9 @@ export class HomePage {
     async clickOnDeleteBtn() {
         await this.deletePlaylistButton.click()
     }
+
+    getSongInPlaylist(name) {
+        return this.page.getByRole('cell', { name: `${name}` })
+    }
+    
 }
