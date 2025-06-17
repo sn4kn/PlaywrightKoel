@@ -4,12 +4,21 @@ import { HomePage } from '../pages/HomePage'
 import { LoginPage } from '../pages/LoginPage'
 import { AllSongsPage } from '../pages/AllSongsPage'
 
-test('should create and display new playlist @smoke @regression', async ({ page }) => {
-    const playlistName = `Playlist-${uuidv4()}`
-    const homePage = new HomePage(page)
-    const loginPage = new LoginPage(page)
+let loginPage
+let homePage
+let allSongsPage
+let playlistName
+
+test.beforeEach(async ({ page }) => {
+    playlistName = `Playlist-${uuidv4()}`
+    loginPage = new LoginPage(page)
+    homePage = new HomePage(page)
+    allSongsPage = new AllSongsPage(page)
     await page.goto('/')
     await loginPage.validLogin(process.env.ADMIN_USERNAME, process.env.ADMIN_PASSWORD)
+});
+
+test('should create and display new playlist @smoke @regression', async () => {
     if (!(await homePage.playlistExist(playlistName).isVisible())) {
         await homePage.createPlaylist(playlistName)
     }
@@ -18,12 +27,7 @@ test('should create and display new playlist @smoke @regression', async ({ page 
     await expect(homePage.playlistExist(playlistName)).not.toBeVisible()
 })
 
-test('should create and delete a playlist successfully @smoke', async ({ page }) => {
-    const playlistName = `Playlist-${uuidv4()}`
-    const homePage = new HomePage(page)
-    const loginPage = new LoginPage(page)
-    await page.goto('/')
-    await loginPage.validLogin(process.env.ADMIN_USERNAME, process.env.ADMIN_PASSWORD)
+test('should create and delete a playlist successfully @smoke', async () => {
     if (!(await homePage.playlistExist(playlistName).isVisible())) {
         await homePage.createPlaylist(playlistName)
     }
@@ -32,13 +36,8 @@ test('should create and delete a playlist successfully @smoke', async ({ page })
     await expect(homePage.playlistExist(playlistName)).not.toBeVisible()
 })
 
-test('should create, rename and delete a playlist successfully @smoke', async ({ page }) => {
-    const playlistName = `Playlist-${uuidv4()}`
+test('should create, rename and delete a playlist successfully @smoke', async () => {
     const newPlaylistName = `Playlist-${uuidv4()}`
-    const homePage = new HomePage(page)
-    const loginPage = new LoginPage(page)
-    await page.goto('/')
-    await loginPage.validLogin(process.env.ADMIN_USERNAME, process.env.ADMIN_PASSWORD)
     if (!(await homePage.playlistExist(playlistName).isVisible())) {
         await homePage.createPlaylist(playlistName)
     }
@@ -54,13 +53,7 @@ test('should create, rename and delete a playlist successfully @smoke', async ({
     await expect(homePage.playlistExist(newPlaylistName)).not.toBeVisible()
 })
 
-test('should create playlist, add song, and delete playlist @smoke', async ({ page }) => {
-    const playlistName = `Playlist-${uuidv4()}`
-    const allSongsPage = new AllSongsPage(page)
-    const homePage = new HomePage(page)
-    const loginPage = new LoginPage(page)
-    await page.goto('/')
-    await loginPage.validLogin(process.env.ADMIN_USERNAME, process.env.ADMIN_PASSWORD)
+test('should create playlist, add song, and delete playlist @smoke', async () => {
     if (!(await homePage.playlistExist(playlistName).isVisible())) {
         await homePage.createPlaylist(playlistName)
     }

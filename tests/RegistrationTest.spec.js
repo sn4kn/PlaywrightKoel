@@ -7,4 +7,4 @@ test('should show error for personal email or invalid email format @smoke', asyn
   await page.goto('/registration')
   await registrationPage.fillEmailAndSubmit(`${uuidv4()}@gmail.com`)
   await expect(registrationPage.errMsg).toBeVisible()
-});
+})
