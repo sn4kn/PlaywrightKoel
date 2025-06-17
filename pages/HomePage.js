@@ -1,4 +1,4 @@
-import TestActions from "../utils/testActions"
+import Actions from "../utils/Actions"
 
 export class HomePage {
     constructor(page) {

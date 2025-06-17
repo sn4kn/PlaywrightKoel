@@ -1,16 +1,21 @@
 import { test, expect } from '@playwright/test'
-import { HomePage } from '../pages/HomePage'
-import { LoginPage } from '../pages/LoginPage'
-import { AllSongsPage } from '../pages/AllSongsPage'
+import { POManager } from '../pages/POManager'
+
+let pom
+
+test.beforeEach(async ({ page }) => {
+    pom = new POManager(page)
+    await page.goto('/')
+})
+
+test.afterEach(async ({ page }) => {
+    await page.close()
+})
 
 test('should play selected song @smoke @regression', async ({ page }) => {
-    const homePage = new HomePage(page)
-    const loginPage = new LoginPage(page)
-    const allSongsPage = new AllSongsPage(page)
-    const name = 'Lament'
-    await page.goto('/')
-    await loginPage.login(process.env.ADMIN_USERNAME, process.env.ADMIN_PASSWORD)
-    await homePage.clickOnAllSongs()
-    await allSongsPage.playSong(name)
-    await expect(homePage.getCurrentPlayingSongTitle()).toContainText(name)
+    const NAME = 'Lament'
+    await pom.LoginPage.login(process.env.ADMIN_USERNAME, process.env.ADMIN_PASSWORD)
+    await pom.HomePage.clickOnAllSongs()
+    await pom.AllSongsPage.playSong(NAME)
+    await expect(pom.HomePage.getCurrentPlayingSongTitle()).toContainText(NAME)
 })

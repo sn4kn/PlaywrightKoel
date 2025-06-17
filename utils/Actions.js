@@ -1,4 +1,4 @@
-export default class TestActions {
+export default class Actions {
     constructor(page) {
         this.page = page
     }

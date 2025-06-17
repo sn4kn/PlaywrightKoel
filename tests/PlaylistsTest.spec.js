@@ -1,69 +1,67 @@
 import { v4 as uuidv4 } from 'uuid'
 import { test, expect } from '@playwright/test'
-import { HomePage } from '../pages/HomePage'
-import { LoginPage } from '../pages/LoginPage'
-import { AllSongsPage } from '../pages/AllSongsPage'
+import { POManager } from '../pages/POManager'
 
-let loginPage
-let homePage
-let allSongsPage
+let pom
 let playlistName
 
 test.beforeEach(async ({ page }) => {
     playlistName = `Playlist-${uuidv4()}`
-    loginPage = new LoginPage(page)
-    homePage = new HomePage(page)
-    allSongsPage = new AllSongsPage(page)
+    pom = new POManager(page)
     await page.goto('/')
-    await loginPage.login(process.env.ADMIN_USERNAME, process.env.ADMIN_PASSWORD)
+    await pom.LoginPage.login(process.env.ADMIN_USERNAME, process.env.ADMIN_PASSWORD)
+})
+
+test.afterEach(async ({ page }) => {
+    await page.close()
 })
 
 test('should create and display new playlist @smoke @regression', async () => {
-    if (!(await homePage.playlistExist(playlistName).isVisible())) {
-        await homePage.createPlaylist(playlistName)
+    if (!(await pom.HomePage.playlistExist(playlistName).isVisible())) {
+        await pom.HomePage.createPlaylist(playlistName)
     }
-    await expect(homePage.currentPlaylistSelected(`${playlistName}`)).toBeVisible()
-    await homePage.clickOnDeleteBtn()
-    await expect(homePage.playlistExist(playlistName)).not.toBeVisible()
+    await expect(pom.HomePage.currentPlaylistSelected(`${playlistName}`)).toBeVisible()
+    await pom.HomePage.clickOnDeleteBtn()
+    await expect(pom.HomePage.playlistExist(playlistName)).not.toBeVisible()
 })
 
 test('should create and delete a playlist successfully @smoke', async () => {
-    if (!(await homePage.playlistExist(playlistName).isVisible())) {
-        await homePage.createPlaylist(playlistName)
+    if (!(await pom.HomePage.playlistExist(playlistName).isVisible())) {
+        await pom.HomePage.createPlaylist(playlistName)
     }
-    await expect(homePage.currentPlaylistSelected(`${playlistName}`)).toBeVisible()
-    await homePage.clickOnDeleteBtn()
-    await expect(homePage.playlistExist(playlistName)).not.toBeVisible()
+    await expect(pom.HomePage.currentPlaylistSelected(`${playlistName}`)).toBeVisible()
+    await pom.HomePage.clickOnDeleteBtn()
+    await expect(pom.HomePage.playlistExist(playlistName)).not.toBeVisible()
 })
 
 test('should create, rename and delete a playlist successfully @smoke', async () => {
     const newPlaylistName = `Playlist-${uuidv4()}`
-    if (!(await homePage.playlistExist(playlistName).isVisible())) {
-        await homePage.createPlaylist(playlistName)
+    if (!(await pom.HomePage.playlistExist(playlistName).isVisible())) {
+        await pom.HomePage.createPlaylist(playlistName)
     }
-    await expect(homePage.currentPlaylistSelected(`${playlistName}`)).toBeVisible()
-    await homePage.playlistExist(playlistName).click({ button: 'right' })
-    await homePage.editPlaylistButton.click()
-    await homePage.playlistExist(playlistName).press('Control+A');
-    await homePage.playlistExist(playlistName).press('Backspace');
-    await homePage.playlistExist(playlistName).type(newPlaylistName)
-    await homePage.playlistExist(playlistName).press('Enter')
-    await expect(homePage.playlistExist(newPlaylistName)).toBeVisible()
-    await homePage.clickOnDeleteBtn()
-    await expect(homePage.playlistExist(newPlaylistName)).not.toBeVisible()
+    await expect(pom.HomePage.currentPlaylistSelected(`${playlistName}`)).toBeVisible()
+    await pom.HomePage.playlistExist(playlistName).click({ button: 'right' })
+    await pom.HomePage.editPlaylistButton.click()
+    await pom.HomePage.playlistExist(playlistName).press('Control+A');
+    await pom.HomePage.playlistExist(playlistName).press('Backspace');
+    await pom.HomePage.playlistExist(playlistName).type(newPlaylistName)
+    await pom.HomePage.playlistExist(playlistName).press('Enter')
+    await expect(pom.HomePage.playlistExist(newPlaylistName)).toBeVisible()
+    await pom.HomePage.clickOnDeleteBtn()
+    await expect(pom.HomePage.playlistExist(newPlaylistName)).not.toBeVisible()
 })
 
 test('should create playlist, add song, and delete playlist @smoke', async () => {
-    if (!(await homePage.playlistExist(playlistName).isVisible())) {
-        await homePage.createPlaylist(playlistName)
+    if (!(await pom.HomePage.playlistExist(playlistName).isVisible())) {
+        await pom.HomePage.createPlaylist(playlistName)
     }
-    await expect(homePage.currentPlaylistSelected(`${playlistName}`)).toBeVisible()
-    await homePage.clickOnAllSongs()
-    await allSongsPage.clickOnSong('Lament')
-    await allSongsPage.addSongToPlaylist(playlistName)
-    await homePage.playlistExist(playlistName).click()
-    await expect(homePage.getSongInPlaylist('Lament')).toBeVisible()
-    await homePage.clickOnDeleteBtn()
-    await homePage.deleteConfirm.click()
-    await expect(homePage.playlistExist(playlistName)).not.toBeVisible()
+    await expect(pom.HomePage.currentPlaylistSelected(`${playlistName}`)).toBeVisible()
+    await pom.HomePage.clickOnAllSongs()
+    await pom.AllSongsPage.clickOnSong('Lament')
+    await pom.AllSongsPage.addSongToPlaylist(playlistName)
+    await pom.HomePage.playlistExist(playlistName).click()
+    await expect(pom.HomePage.getSongInPlaylist('Lament')).toBeVisible()
+    await pom.HomePage.clickOnDeleteBtn()
+    await pom.HomePage.deleteConfirm.click()
+    await expect(pom.HomePage.playlistExist(playlistName)).not.toBeVisible()
 })

@@ -1,9 +1,9 @@
-import TestActions from "../utils/testActions"
+import Actions from "../utils/Actions"
 
 export class LoginPage {
     constructor(page) {
         this.page = page
-        this.action = new TestActions(page)
+        this.action = new Actions(page)
         this.logInButton = '[type="submit"]'
         this.userName = '[type="email"]'
         this.password = '[type="password"]'
