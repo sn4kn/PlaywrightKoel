@@ -5,8 +5,8 @@ import { LoginPage } from '../pages/LoginPage'
 let loginPage
 
 test.beforeEach(async ({ page }) => {
-  await page.goto('/')
   loginPage = new LoginPage(page)
+  await page.goto('/')
 })
 
 test('should display correct login page title @smoke', async ({ page }) => {
@@ -14,12 +14,12 @@ test('should display correct login page title @smoke', async ({ page }) => {
 })
 
 test('should log in with valid credentials and navigate to home @smoke', async ({ page }) => {
-    await loginPage.validLogin(process.env.ADMIN_USERNAME, process.env.ADMIN_PASSWORD)
+    await loginPage.login(process.env.ADMIN_USERNAME, process.env.ADMIN_PASSWORD)
     await expect(page).toHaveURL('https://qa.koel.app/#!/home')
 })
 
 test('should not log in with invalid credentials @smoke @regression', async ({ page }) => {
-    await loginPage.validLogin(`${uuidv4()}@gmail.com`, `${uuidv4()}`)
+    await loginPage.login(`${uuidv4()}@gmail.com`, `${uuidv4()}`)
     await expect(page).toHaveURL('https://qa.koel.app/')
 })
 

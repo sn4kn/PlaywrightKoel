@@ -8,7 +8,7 @@ test('should display selected playlist @smoke', async ({ page }) => {
     const homePage = new HomePage(page)
     const loginPage = new LoginPage(page)
     await page.goto('/')
-    await loginPage.validLogin(process.env.ADMIN_USERNAME, process.env.ADMIN_PASSWORD)
+    await loginPage.login(process.env.ADMIN_USERNAME, process.env.ADMIN_PASSWORD)
     if (!(await homePage.playlistExist(playlistName).isVisible())) {
         await homePage.createPlaylist(playlistName)
     }

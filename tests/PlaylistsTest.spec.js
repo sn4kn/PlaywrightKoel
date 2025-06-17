@@ -15,8 +15,8 @@ test.beforeEach(async ({ page }) => {
     homePage = new HomePage(page)
     allSongsPage = new AllSongsPage(page)
     await page.goto('/')
-    await loginPage.validLogin(process.env.ADMIN_USERNAME, process.env.ADMIN_PASSWORD)
-});
+    await loginPage.login(process.env.ADMIN_USERNAME, process.env.ADMIN_PASSWORD)
+})
 
 test('should create and display new playlist @smoke @regression', async () => {
     if (!(await homePage.playlistExist(playlistName).isVisible())) {

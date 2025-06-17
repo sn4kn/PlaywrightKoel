@@ -1,3 +1,5 @@
+import TestActions from "../utils/testActions"
+
 export class AllSongsPage{
     constructor(page){
         this.page=page

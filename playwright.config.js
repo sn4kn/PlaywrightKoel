@@ -13,11 +13,11 @@ import { defineConfig, devices } from '@playwright/test';
  */
 export default defineConfig({
   testDir: './tests',
-  timeout : 30 * 1000,
-  expect : {
-    timeout : 5 * 1000
+  timeout: 30 * 1000,
+  expect: {
+    timeout: 5 * 1000
   },
-  globalSetup : require.resolve("./globalSetup.js"),
+  globalSetup: require.resolve("./globalSetup.js"),
   /* Run tests in files in parallel */
   fullyParallel: true,
   /* Fail the build on CI if you accidentally left test.only in the source code. */
@@ -25,7 +25,7 @@ export default defineConfig({
   /* Retry on CI only */
   retries: process.env.CI ? 2 : 2,
   /* Opt out of parallel tests on CI. */
-  workers: process.env.CI ? 2 : undefined,
+  workers: process.env.CI ? 2 : 4,
   /* Reporter to use. See https://playwright.dev/docs/test-reporters */
   reporter: 'html',
   /* Shared settings for all the projects below. See https://playwright.dev/docs/api/class-testoptions. */
@@ -44,12 +44,8 @@ export default defineConfig({
       use: {
         ...devices['Desktop Chrome'],
         //headless : false,
-        screenshot : 'on-first-failure',
-        trace : 'retain-on-first-failure',
-        viewport: { width: 1920, height: 1080 }, // override
-        launchOptions: {
-          args: ['--window-size=1920,1080'],
-        },
+        screenshot: 'on-first-failure',
+        trace: 'retain-on-first-failure',
       }
     }
 
