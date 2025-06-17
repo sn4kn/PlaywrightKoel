@@ -1,10 +1,10 @@
 export class LoginPage {
     constructor(page) {
         this.page = page
-        this.logInButton = page.locator("[type='submit']")
-        this.userName = page.locator("[type='email']")
-        this.password = page.locator("[type='password']")
-        this.registration = page.locator("a:has-text('Registration')")
+        this.logInButton = page.locator('[type="submit"]')
+        this.userName = page.locator('[type="email"]')
+        this.password = page.locator('[type="password"]')
+        this.registration = page.locator('a:has-text("Registration")')
     }
 
     async validLogin(username, password) {

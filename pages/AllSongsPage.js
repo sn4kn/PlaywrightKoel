@@ -1,7 +1,7 @@
 export class AllSongsPage{
     constructor(page){
         this.page=page
-        this.addTo = page.locator(".btn-add-to")
+        this.addTo = page.locator('.btn-add-to')
     }
 
     async clickOnSong(name) {

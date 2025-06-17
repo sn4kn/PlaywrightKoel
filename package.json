@@ -4,7 +4,10 @@
   "main": "index.js",
   "scripts": {
     "test": "playwright test --headed",
-    "test:ci" : "playwright test"
+    "test:ci": "playwright test",
+    "test:regression": "playwright test --grep @regression",
+    "test:smoke": "playwright test --grep @smoke",
+    "test:regression:smoke": "npm run test:smoke && npm run test:regression"
   },
   "keywords": [],
   "author": "",
